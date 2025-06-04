@@ -148,7 +148,7 @@
 .product-item .inner-content .inner-price-old {
     font-size: 18px;
     font-weight: 600;
-    color: #ddd;
+    color: red;
     text-decoration: line-through;
 }
 
