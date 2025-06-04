@@ -1,11 +1,11 @@
 module.exports.index = (req, res) => {
     res.render("client/pages/product/index", {
-        titlePage: "Danh sach san pham"
+        titlePage: "Danh sách sản phẩm"
     })
 }
 
 module.exports.create = (req, res) => {
     res.render("client/pages/product/create", {
-        titlePage: "Tao san pham"
+        titlePage: "Create Product"
     })
 }
