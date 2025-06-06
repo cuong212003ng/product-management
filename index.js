@@ -7,6 +7,8 @@ const adminRoute = require("./routes/admin/index.route")
 
 const database = require('./config/database')
 
+const systemConfig = require('./config/system')
+
 database.connect()
 
 const port = process.env.PORT
@@ -14,6 +16,8 @@ const port = process.env.PORT
 app.set('view engine', 'pug')
 app.set('views', './views')
 app.use(express.static('public'))
+
+app.locals.prefixAdmin = systemConfig.prefixAdmin  // Tao ra 1 bien toan cuc
 
 clientRoute(app)
 adminRoute(app)
