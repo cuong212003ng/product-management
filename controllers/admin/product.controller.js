@@ -19,23 +19,18 @@ module.exports.product = async (req, res) => {
     }
 
     //Đoạn tìm kiếm
-    let keyword = ""
-    const regex = searchKeywordHelper(req.query)
+    const objectSearch = searchKeywordHelper(req.query)
 
-    if(regex) {
-        find.title = regex
-        keyword = req.query.keyword
+    if(objectSearch.regex) {
+        find.title = objectSearch.regex
     }
-    
 
-
-    
     const products = await Product.find(find);  
 
     res.render("admin/pages/product/index", {
         titlePage: "Danh sách sản phẩm",
         products: products,
         fillterStatus: fillterStatus,
-        keyword: keyword
+        keyword: objectSearch.keyword
     })
 }
