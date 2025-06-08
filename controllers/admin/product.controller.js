@@ -1,52 +1,31 @@
 const Product = require("../../models/product.model")
+const fillterStatusHelper = require("../../helpers/fillterstatus")
+const searchKeywordHelper = require("../../helpers/searchkeyword")
+
+
 // [GET] /admin/products
 module.exports.product = async (req, res) => {
     // console.log(req.query.status);
 
-    let fillterStatus = [
-        {
-            name: "Tất cả",
-            status: "",
-            class: ""
-        },
-        {
-            name: "Hoạt động",
-            status: "active",
-            class: ""
-        },
-        {
-            name: "Dừng hoạt động",
-            status: "inactive",
-            class: ""
-        }
-    ]
+    //Đoạn bộ lọc
+    const fillterStatus = fillterStatusHelper(req.query)
 
     let find = {
         deleted: false
     }
-
-    let keyword = ""
-
-    if(req.query.keyword) {
-        keyword = req.query.keyword
-
-        const regex = new RegExp(keyword, "i")
-        find.title = regex
-    }
-
-    if(req.query.status) {
-        const index = fillterStatus.findIndex(item => item.status === req.query.status)
-        fillterStatus[index].class = "active"
-    }else {
-        const index = fillterStatus.findIndex(item => item.status === "")
-        fillterStatus[index].class = "active"
-    }
-
+    
     if(req.query.status) {
         find.status = req.query.status
     }
-    const products = await Product.find(find);
-    // console.log(products);   
+
+    //Đoạn tìm kiếm
+    const keyword = searchKeywordHelper(req.query)
+
+    if(keyword) {
+        find.title = { $regex: keyword, $options: "i" }
+    }
+    
+    const products = await Product.find(find);  
 
     res.render("admin/pages/product/index", {
         titlePage: "Danh sách sản phẩm",
