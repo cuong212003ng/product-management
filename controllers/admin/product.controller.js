@@ -25,6 +25,15 @@ module.exports.product = async (req, res) => {
         deleted: false
     }
 
+    let keyword = ""
+
+    if(req.query.keyword) {
+        keyword = req.query.keyword
+
+        const regex = new RegExp(keyword, "i")
+        find.title = regex
+    }
+
     if(req.query.status) {
         const index = fillterStatus.findIndex(item => item.status === req.query.status)
         fillterStatus[index].class = "active"
@@ -42,6 +51,7 @@ module.exports.product = async (req, res) => {
     res.render("admin/pages/product/index", {
         titlePage: "Danh sách sản phẩm",
         products: products,
-        fillterStatus: fillterStatus
+        fillterStatus: fillterStatus,
+        keyword: keyword
     })
 }
