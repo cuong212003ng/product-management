@@ -5,8 +5,6 @@ module.exports = (query) => {
         keyword = query.keyword
 
         const regex = new RegExp(keyword, "i")
-        find.title = regex
+        return regex
     }
-
-    return keyword
 }
