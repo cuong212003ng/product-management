@@ -1,7 +1,7 @@
 const Product = require("../../models/product.model")
 const fillterStatusHelper = require("../../helpers/fillterstatus")
 const searchKeywordHelper = require("../../helpers/searchkeyword")
-
+const paginationHelper = require("../../helpers/pagination")
 
 // [GET] /admin/products
 module.exports.product = async (req, res) => {
@@ -19,18 +19,33 @@ module.exports.product = async (req, res) => {
     }
 
     //Đoạn tìm kiếm
+    
     const objectSearch = searchKeywordHelper(req.query)
 
     if(objectSearch.regex) {
         find.title = objectSearch.regex
     }
 
-    const products = await Product.find(find);  
+    // Đoạn Phân Trang Paginatiom
+    const countProduct  = await Product.countDocuments(find)
+
+    let objectPagination = paginationHelper(
+        {
+            currentPage: 1,
+            limitItems: 5
+        },
+        req.query,
+        countProduct
+    )
+
+    //End Đoạn Phân Trang Paginatiom
+    const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);  
 
     res.render("admin/pages/product/index", {
         titlePage: "Danh sách sản phẩm",
         products: products,
         fillterStatus: fillterStatus,
-        keyword: objectSearch.keyword
+        keyword: objectSearch.keyword,
+        pagination: objectPagination
     })
 }
