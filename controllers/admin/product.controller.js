@@ -19,7 +19,6 @@ module.exports.product = async (req, res) => {
     }
 
     //Đoạn tìm kiếm
-    
     const objectSearch = searchKeywordHelper(req.query)
 
     if(objectSearch.regex) {
@@ -27,7 +26,7 @@ module.exports.product = async (req, res) => {
     }
 
     // Đoạn Phân Trang Paginatiom
-    const countProduct  = await Product.countDocuments(find)
+    const countProduct = await Product.countDocuments(find)
 
     let objectPagination = paginationHelper(
         {
@@ -39,7 +38,9 @@ module.exports.product = async (req, res) => {
     )
 
     //End Đoạn Phân Trang Paginatiom
-    const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);  
+    const products = await Product.find(find)
+        .limit(objectPagination.limitItems)
+        .skip(objectPagination.skip);  
 
     res.render("admin/pages/product/index", {
         titlePage: "Danh sách sản phẩm",
@@ -48,4 +49,14 @@ module.exports.product = async (req, res) => {
         keyword: objectSearch.keyword,
         pagination: objectPagination
     })
+}
+// [GET] /admin/products/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+    console.log(req.params);
+    const {status, id} = req.params
+    
+    await Product.updateOne({_id: id}, {status: status})
+
+    res.redirect(req.headers.referer || "/admin/products")  //req.headers.referer là url của trang trước đó
+                                                            //Neu trang wed truoc do khong co thi chuyen den trang admin/products
 }
