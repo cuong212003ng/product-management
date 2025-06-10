@@ -52,11 +52,28 @@ module.exports.product = async (req, res) => {
 }
 // [GET] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
-    console.log(req.params);
+    // console.log(req.params);
     const {status, id} = req.params
     
     await Product.updateOne({_id: id}, {status: status})
 
     res.redirect(req.headers.referer || "/admin/products")  //req.headers.referer là url của trang trước đó
                                                             //Neu trang wed truoc do khong co thi chuyen den trang admin/products
+}
+module.exports.changeMulti = async (req, res) => {
+    const type= req.body.type
+    const ids = req.body.ids.split(",")
+
+    switch (type) {
+        case "active":
+            await Product.updateMany({_id: {$in: ids}}, {status: "active"})
+            break
+        case "inactive":
+            await Product.updateMany({_id: {$in: ids}}, {status: "inactive"})
+            break
+        default:
+            break
+    }
+    
+    res.redirect(req.headers.referer || "/admin/products")
 }

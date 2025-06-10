@@ -1,5 +1,6 @@
 const express = require('express')
 const methodOverride = require('method-override')
+const bodyParser = require('body-parser')
 const app = express()
 require('dotenv').config()
 
@@ -14,11 +15,14 @@ database.connect()
 
 const port = process.env.PORT
 
-app.use(methodOverride('_method'))
-
-app.set('view engine', 'pug')
+app.use(methodOverride('_method'))                 //Dung de su dung method override
+                                                
+app.set('view engine', 'pug')                      //Dung de su dung pug
 app.set('views', './views')
-app.use(express.static('public'))
+app.use(express.static('public'))                  //Dung de su dung file static   
+
+app.use(bodyParser.json())                         //Dung de doc du lieu tu form req.body
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin  // Tao ra 1 bien toan cuc
 

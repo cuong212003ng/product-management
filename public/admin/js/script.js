@@ -55,3 +55,71 @@ if(formSearch) {
         })
     }
 // End Pagination
+
+//Checkbox Multi
+    const checkBoxMulti = document.querySelectorAll("[checkbox-multi]")
+    if(checkBoxMulti) {
+        const checkAll = document.querySelector("input[name='checkAll']")
+        const inputsId = document.querySelectorAll("input[name='id']")
+
+        checkAll.addEventListener("click", () => {
+            if(checkAll.checked) {
+                inputsId.forEach(input => {
+                    input.checked = true
+                })
+
+            }else {
+                inputsId.forEach(input => {
+                    input.checked = false 
+                })
+            }
+        })
+
+        inputsId.forEach(input => {
+            input.addEventListener("click", () => {
+                const countChecked = document.querySelectorAll("input[name='id']:checked").length
+                console.log(countChecked);
+                console.log(inputsId.length);
+                if(countChecked == inputsId.length) {
+                    checkAll.checked = true
+                }else {
+                    checkAll.checked = false
+                }               
+            })
+        })
+        
+    }
+
+//End Checkbox Multi
+
+//Form Change Multi
+    const formChangeMulti = document.querySelector("[form-change-multi]")
+    if(formChangeMulti) {
+        formChangeMulti.addEventListener("submit", (e) => {
+            e.preventDefault()
+
+            const checkBoxMulti = document.querySelector("[checkbox-multi]")
+            const inputsChecked = checkBoxMulti.querySelectorAll("input[name='id']:checked")
+
+            console.log(inputsChecked);
+            
+            if(inputsChecked.length > 0) {
+                let ids = []
+
+                const inputIds = formChangeMulti.querySelector("input[name='ids']")
+                
+
+                inputsChecked.forEach(input => {
+                    const id = input.value
+                    ids.push(id)
+                })
+
+                inputIds.value = ids.join(",")
+                formChangeMulti.submit()
+                
+            }else {
+                alert("Vui lòng chọn ít nhất 1 sản phẩm")
+            }
+        })       
+    }
+//End Form Change Multi

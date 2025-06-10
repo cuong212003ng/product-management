@@ -4,7 +4,7 @@ if(buttonChangeStatus.length > 0) {
 
     const formChangeStatus = document.getElementById("form-change-status")
     const path = formChangeStatus.getAttribute("data-path")
-    console.log(path);
+    // console.log(path);
     
 
     buttonChangeStatus.forEach(button => {
@@ -17,7 +17,7 @@ if(buttonChangeStatus.length > 0) {
             let statusChange = statusCurrent == "active" ? "inactive" : "active"
 
             const action = path + `/${statusChange}/${id}?_method=PATCH`
-            console.log(action);
+            
             
             formChangeStatus.setAttribute("action", action)
             formChangeStatus.submit()
