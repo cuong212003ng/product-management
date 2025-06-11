@@ -50,7 +50,7 @@ module.exports.product = async (req, res) => {
         pagination: objectPagination
     })
 }
-// [GET] /admin/products/change-status/:status/:id
+// [PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     // console.log(req.params);
     const {status, id} = req.params
@@ -60,6 +60,7 @@ module.exports.changeStatus = async (req, res) => {
     res.redirect(req.headers.referer || "/admin/products")  //req.headers.referer là url của trang trước đó
                                                             //Neu trang wed truoc do khong co thi chuyen den trang admin/products
 }
+// [PATCh] /admin/products/change-multi
 module.exports.changeMulti = async (req, res) => {
     const type= req.body.type
     const ids = req.body.ids.split(",")
@@ -76,4 +77,17 @@ module.exports.changeMulti = async (req, res) => {
     }
     
     res.redirect(req.headers.referer || "/admin/products")
+}
+// [DELETE] /admin/products/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    // console.log(req.params);
+    const id = req.params.id
+    
+    await Product.updateOne({_id: id},{
+        deleted: true,
+        deletedAt: new Date() //Ghi la ngày xóa sản phẩm
+    })  //Xóa sản phẩm bằng cách đánh dấu deleted là true
+
+    res.redirect(req.headers.referer || "/admin/products")  //req.headers.referer là url của trang trước đó
+                                                            //Neu trang wed truoc do khong co thi chuyen den trang admin/products
 }
