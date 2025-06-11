@@ -72,6 +72,11 @@ module.exports.changeMulti = async (req, res) => {
         case "inactive":
             await Product.updateMany({_id: {$in: ids}}, {status: "inactive"})
             break
+        case "delete-all":
+            await Product.updateMany({_id: {$in: ids}}, {
+                deleted: true,
+                deletedAt: new Date() //Ghi la ngày xóa sản phẩm
+            })  //Xóa sản phẩm bằng cách đánh dấu deleted là true
         default:
             break
     }
