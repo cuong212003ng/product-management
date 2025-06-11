@@ -1,7 +1,11 @@
 extends ../../layout/default.pug
 include ../../mixins/box-head.pug
 
-block main 
+block main
+    - if (messages.success)
+        .message.info
+            span= messages.success
+
     .container 
         .row
             .col-12 

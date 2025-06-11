@@ -58,6 +58,8 @@ module.exports.changeStatus = async (req, res) => {
 
   await Product.updateOne({ _id: id }, { status: status });
 
+  req.flash("success", "Cập nhật trạng thái sản phẩm thành công");
+
   res.redirect(req.headers.referer || "/admin/products"); //req.headers.referer là url của trang trước đó
   //Neu trang wed truoc do khong co thi chuyen den trang admin/products
 };

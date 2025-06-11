@@ -34,6 +34,7 @@
 }
 
 /* End Body*/
+
 /*Sider*/
 
 .sider .inner-menu  ul {
@@ -50,3 +51,25 @@
     text-decoration: none;
 }
 /* End Sider*/
+
+/*Show Alert*/
+[show-alert] {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 15px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+[show-alert].alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+[show-alert].alert-hidden {
+    animation: slideOut 0.5s ease forwards;
+}
+/* End Show Alert*/
