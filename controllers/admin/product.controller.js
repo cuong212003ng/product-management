@@ -114,6 +114,7 @@ module.exports.deleteItem = async (req, res) => {
     }
   ); //Xóa sản phẩm bằng cách đánh dấu deleted là true
 
+  req.flash("success", `Xóa sản phẩm thành công`);
   res.redirect(req.headers.referer || "/admin/products"); //req.headers.referer là url của trang trước đó
   //Neu trang wed truoc do khong co thi chuyen den trang admin/products
 };
