@@ -1,7 +1,7 @@
 const express = require('express')
-var flash = require('express-flash')
-var cookieParser = require('cookie-parser')
-var session = require('express-session')
+const flash = require('express-flash')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const app = express()
@@ -37,7 +37,7 @@ app.use(flash());
 
 // Tao ra 1 bien toan cuc
 app.locals.prefixAdmin = systemConfig.prefixAdmin
-//Dung de su dung file static  
+//Dung de public cac file static 
 app.use(express.static('public')) 
 //Routes
 clientRoute(app)
