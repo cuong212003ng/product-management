@@ -3,19 +3,14 @@ include ../../mixins/btn_fillterStatus.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change_multi.pug
+include ../../mixins/show-alert.pug
 
 
 block main
-    -   if (messages.success)
-        .message.info
-            div(
-                class="alert alert-success"
-                show-alert
-                data-time="5000"
-            ) #{messages.success}     
 
+    +alert-success(5000)
 
-    h1.mb-4 Danh sách sản phẩm
+    h1  Danh sách sản phẩm
     .card.mb-4
         .card-header Bộ lọc và tìm kiếm
         .card-body

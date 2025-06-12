@@ -1,0 +1,9 @@
+mixin alert-success(time)
+    -   if (messages.success)
+            .message.info
+                div(
+                    class="alert alert-success"
+                    show-alert
+                    data-time=time
+                    style="position: fixed; top: 63px; right: 15px; z-index: 9999;"
+                )   #{messages.success} <span class="alert-close">x</span>

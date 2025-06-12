@@ -138,12 +138,18 @@ if (formChangeMulti) {
 
 // Show alert
 const showAlert = document.querySelector("[show-alert]");
+
 if (showAlert) {
-    const time = parseInt(showAlert.getAttribute("data-time")) || 5000;
-    
+  const time = parseInt(showAlert.getAttribute("data-time"));
+  const alertClose = document.querySelector(".alert-close");
+
     // Auto close after time
-    setTimeout(() => {
-        showAlert.classList.add("alert-hidden");
-    }, time);
+  setTimeout(() => {
+    showAlert.classList.add("alert-hidden");
+  }, time);
+  // Close alert
+  alertClose.addEventListener("click", () => {
+    showAlert.classList.add("alert-hidden");
+  });
 }
 // End Show alert

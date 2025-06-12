@@ -29,9 +29,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
   
 //Dung de su dung flash
-// //Khai bao secret key cho cookie parser
-app.use(cookieParser('keyboard cat')); 
-// //Khai bao session
+//Khai bao secret key cho cookie parser
+app.use(cookieParser('keyboard cat'));
+//Khai bao session
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 

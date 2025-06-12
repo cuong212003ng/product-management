@@ -39,7 +39,7 @@ module.exports.product = async (req, res) => {
 
   //End Đoạn Phân Trang Paginatiom
   const products = await Product.find(find)
-    .sort({ position: "desc"}) //Sắp xếp theo vị trí 
+    .sort({ position: "desc" }) //Sắp xếp theo vị trí 
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
 
@@ -48,7 +48,7 @@ module.exports.product = async (req, res) => {
     products: products,
     fillterStatus: fillterStatus,
     keyword: objectSearch.keyword,
-    pagination: objectPagination,
+    pagination: objectPagination
   });
 };
 // [PATCH] /admin/products/change-status/:status/:id
@@ -71,27 +71,29 @@ module.exports.changeMulti = async (req, res) => {
   switch (type) {
     case "active":
       await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
-      break;
+      req.flash("success", `Cập nhật trạng thái ${ids.length} sản phẩm thành công`);
+      break;      
     case "inactive":
       await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+      req.flash("success", `Cập nhật trạng thái ${ids.length} sản phẩm thành công`);
       break;
     case "delete-all":
       await Product.updateMany(
         { _id: { $in: ids } },
         {
           deleted: true,
-          deletedAt: new Date(), //Ghi la ngày xóa sản phẩm
+          deletedAt: new Date(),
         }
-      ); //Xóa sản phẩm bằng cách đánh dấu deleted là true
+      );
+      req.flash("success", `Đã xóa ${ids.length} sản phẩm thành công`);
       break;
     case "change-position":
       for (const item of ids) {
         let [id, position] = item.split("-");
-        position = parseInt(position); // If parseInt returns NaN, use 0 as default
-        // console.log(id);
-        // console.log(position);
-        await Product.updateOne({ _id: id }, { position: position }); //Cập nhật vị trí sản phẩm
+        position = parseInt(position);
+        await Product.updateOne({ _id: id }, { position: position });
       }
+      req.flash("success", `Cập nhật vị trí ${ids.length} sản phẩm thành công`);
       break;
     default:
       break;

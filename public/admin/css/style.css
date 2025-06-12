@@ -53,23 +53,54 @@
 /* End Sider*/
 
 /*Show Alert*/
-[show-alert] {
+.alert {
     position: fixed;
     top: 20px;
     right: 20px;
-    z-index: 9999;
-    padding: 15px 20px;
+    padding: 10px 18px;
     border-radius: 4px;
+    z-index: 9999;
+    max-width: 350px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease-in-out;
 }
 
-[show-alert].alert-success {
+.alert-close {
+    position: absolute;
+    top: 0;
+    right: 8px;
+    cursor: pointer;
+}
+
+.alert-success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
 }
 
-[show-alert].alert-hidden {
-    animation: slideOut 0.5s ease forwards;
+.alert-hidden {
+    animation: slideOut 0.3s ease-in-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }
 /* End Show Alert*/
