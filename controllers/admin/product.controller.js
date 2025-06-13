@@ -3,6 +3,8 @@ const fillterStatusHelper = require("../../helpers/fillterstatus");
 const searchKeywordHelper = require("../../helpers/searchkeyword");
 const paginationHelper = require("../../helpers/pagination");
 
+const { prefixAdmin } = require("../../config/system.js");
+
 // [GET] /admin/products
 module.exports.product = async (req, res) => {
   // console.log(req.query.status);
@@ -60,7 +62,7 @@ module.exports.changeStatus = async (req, res) => {
 
   req.flash("success", "Cập nhật trạng thái sản phẩm thành công");
 
-  res.redirect(req.headers.referer || "/admin/products"); //req.headers.referer là url của trang trước đó
+  res.redirect(req.headers.referer || `${prefixAdmin}/products`); //req.headers.referer là url của trang trước đó
   //Neu trang wed truoc do khong co thi chuyen den trang admin/products
 };
 // [PATCH] /admin/products/change-multi
@@ -92,14 +94,13 @@ module.exports.changeMulti = async (req, res) => {
         let [id, position] = item.split("-");
         position = parseInt(position);
         await Product.updateOne({ _id: id }, { position: position });
-        req.flash("success", `Đã xóa ${ids.length} sản phẩm thành công`);
       }
       break;
     default:
       break;
   }
 
-  res.redirect(req.headers.referer || "/admin/products");
+  res.redirect(req.headers.referer || `${prefixAdmin}/products`);
 };
 // [DELETE] /admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
@@ -115,6 +116,37 @@ module.exports.deleteItem = async (req, res) => {
   ); //Xóa sản phẩm bằng cách đánh dấu deleted là true
 
   req.flash("success", `Xóa sản phẩm thành công`);
-  res.redirect(req.headers.referer || "/admin/products"); //req.headers.referer là url của trang trước đó
+  res.redirect(req.headers.referer || `${prefixAdmin}/products`); //req.headers.referer là url của trang trước đó
   //Neu trang wed truoc do khong co thi chuyen den trang admin/products
+};
+// [GET] /admin/products/create
+module.exports.createGET = async (req, res) => {
+  res.render("admin/pages/product/create", {
+    titlePage: "Thêm sản phẩm mới",
+  });
+};
+// [POST] /admin/products/create
+module.exports.createPOST = async (req, res) => {
+  req.body.price = parseInt(req.body.price);
+  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.stock = parseInt(req.body.stock);
+  req.body.category = req.body.category || "other"; // Mặc định category là "other" nếu không có
+  if(req.body.position == "") {
+    const countProduct = await Product.countDocuments();
+    req.body.position = countProduct + 1; // Tự động gán vị trí cuối cùng nếu không có vị trí
+    console.log(countProduct);
+  } else {
+    req.body.position = parseInt(req.body.position);
+  }
+  req.body.deleted = false; // Mặc định sản phẩm không bị xóa
+
+  console.log(req.body);
+  
+
+  // Tạo một sản phẩm mới từ dữ liệu trong req.body
+  const newProduct = new Product(req.body);
+  await newProduct.save(); // Lưu sản phẩm mới vào cơ sở dữ liệu
+
+  res.redirect(`${prefixAdmin}/products`);
+  
 };
