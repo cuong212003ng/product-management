@@ -53,3 +53,25 @@ if(buttonDeleteProduct.length > 0) {
 }
 
 // End Delete Product
+
+// Upload image
+const upLoadImage = document.querySelector("[upload-image]");
+if (upLoadImage) {
+  const upLoadImageInput = document.querySelector("[upload-image-input]");
+  const upLoadImagePreview = document.querySelector("[upload-image-preview]");
+  const upLoadImageRemove = document.querySelector("[upload-image-remove]");
+
+  upLoadImageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      upLoadImagePreview.src = URL.createObjectURL(file);
+    }
+  });
+
+  upLoadImageRemove.addEventListener("click", (e) => {
+    upLoadImagePreview.src = "";
+    upLoadImageInput.value = "";
+  });
+}
+
+//End Upload image

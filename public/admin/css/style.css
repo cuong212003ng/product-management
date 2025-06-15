@@ -104,3 +104,49 @@
     }
 }
 /* End Show Alert*/
+
+/* Upload image */
+.image-preview {
+    width: 150px;
+    height: auto;
+    margin-top: 15px;
+    border: 0 solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.image-preview [src=""] {
+    display: none;
+}
+
+/* End Upload image */
+
+/* Delete image */
+.image-preview {
+    width: 150px;
+    height: auto;
+    margin-top: 15px;
+    border: 0 solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    display: none;
+}
+
+#upload-image-remove {
+    display: none;
+    margin-top: 10px;
+    margin-left: 4px;
+    margin-bottom: 10px;
+}
+
+/* Show remove button when image is previewed */
+.image-preview[src]:not([src=""]) + #upload-image-remove {
+    display: inline-block;
+}
+
+/* Show preview when image is selected */
+.image-preview[src]:not([src=""]) {
+    display: block;
+} 
+
+/* End Delete image */

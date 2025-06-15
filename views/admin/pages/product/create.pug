@@ -72,15 +72,33 @@ block main
                 min="0"
                 step="0.1"
             )
-        div(class="form-group")
-            label(for="thumbnail")  Hình ảnh sản phẩm
+        div(
+            class="form-group"
+            upload-image
+        )
+            label(for="thumbnail")  Hình ảnh sản phẩm 
+            <br>
             input(
                 type="file"
                 class="form-control-file"
                 id="thumbnail"
                 name="thumbnail"
                 accept="image/*"
+                upload-image-input
             )
+            img(
+                src=""
+                upload-image-preview
+                class="image-preview"
+            )
+            button(
+                type="button"
+                id="upload-image-remove"
+                class="btn btn-danger"
+                style="right: 50px;"
+                upload-image-remove
+            )   Xóa hình ảnh
+            
         div(class="form-group")
             label(for="position")  Vị trí sản phẩm
             input(
@@ -116,5 +134,5 @@ block main
                 class="btn btn-primary"
             )   Tạo mới sản phẩm 
                 
-
-    script(src="/admin/js/product/product.js") 
+    
+    script(src="/admin/js/product.js")

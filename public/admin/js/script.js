@@ -143,7 +143,7 @@ if (showAlert) {
   const time = parseInt(showAlert.getAttribute("data-time"));
   const alertClose = document.querySelector(".alert-close");
 
-    // Auto close after time
+  // Auto close after time
   setTimeout(() => {
     showAlert.classList.add("alert-hidden");
   }, time);
@@ -153,3 +153,5 @@ if (showAlert) {
   });
 }
 // End Show alert
+
+
