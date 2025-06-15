@@ -1,3 +1,4 @@
+//Hàm fillterstatus để lọc trạng thái sản phẩm
 module.exports = (query) => {
     let fillterStatus = [
         {

@@ -6,16 +6,21 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 
 const app = express()
+// Khai bao dotenv de su dung bien moi truong
 require('dotenv').config()
 
+// Khai bao cac route
 const clientRoute = require("./routes/client/index.route")
 const adminRoute = require("./routes/admin/index.route")
 
+// Khai bao config database
 const database = require('./config/database')
 
-const systemConfig = require('./config/system')
-
+// Ket noi toi database
 database.connect()
+
+// Khai bao cac config
+const systemConfig = require('./config/system')
 
 const port = process.env.PORT
 //Dung de su dung method override
@@ -38,8 +43,10 @@ app.use(flash());
 
 // Tao ra 1 bien toan cuc
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+
 //Dung de public cac file static 
 app.use(express.static('public')) 
+
 //Routes
 clientRoute(app)
 adminRoute(app)

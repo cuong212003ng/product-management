@@ -1,3 +1,4 @@
+//Hàm pagination để phân trang sản phẩm
 module.exports = (objectPagination, query, countProduct) => {
 
     if(query.page) {

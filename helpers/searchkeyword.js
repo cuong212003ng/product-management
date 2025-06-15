@@ -1,3 +1,4 @@
+//Hàm searchkeyword để tìm kiếm sản phẩm
 module.exports = (query) => {
     let objectSearch = {
         keyword: ""

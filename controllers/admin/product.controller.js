@@ -127,26 +127,50 @@ module.exports.createGET = async (req, res) => {
 };
 // [POST] /admin/products/create
 module.exports.createPOST = async (req, res) => {
-  req.body.price = parseInt(req.body.price);
-  req.body.discountPercentage = parseInt(req.body.discountPercentage);
-  req.body.stock = parseInt(req.body.stock);
-  req.body.category = req.body.category || "other"; // Mặc định category là "other" nếu không có
-  if(req.body.position == "") {
-    const countProduct = await Product.countDocuments();
-    req.body.position = countProduct + 1; // Tự động gán vị trí cuối cùng nếu không có vị trí
-    console.log(countProduct);
-  } else {
-    req.body.position = parseInt(req.body.position);
+  try {
+    // Kiểm tra req.body
+    if (!req.body) {
+      req.flash("error", "Không nhận được dữ liệu sản phẩm!");
+      return res.redirect(`${prefixAdmin}/products`);
+    }
+
+    // Xử lý dữ liệu đầu vào an toàn
+    const productData = {
+      title: req.body.title,
+      description: req.body.description,
+      price: parseInt(req.body.price) || 0,
+      discountPercentage: parseInt(req.body.discountPercentage) || 0,
+      stock: parseInt(req.body.stock) || 0,
+      rating: parseFloat(req.body.rating) || 0,
+      category: req.body.category || "other",
+      status: req.body.status || "active",
+      deleted: false,
+    };
+
+    // Xử lý vị trí
+    if (!req.body.position || req.body.position === "") {
+      const countProduct = await Product.countDocuments();
+      productData.position = countProduct + 1;
+    } else {
+      productData.position = parseInt(req.body.position);
+    }
+
+    // Xử lý thumbnail nếu có
+    if (req.file) {
+      productData.thumbnail = `/uploads/${req.file.filename}`;
+    }
+
+    console.log("Dữ liệu sản phẩm đã xử lý:", productData);
+
+    // Tạo sản phẩm mới
+    const newProduct = new Product(productData);
+    await newProduct.save();
+
+    req.flash("success", "Thêm sản phẩm mới thành công!");
+    res.redirect(`${prefixAdmin}/products`);
+  } catch (error) {
+    console.error("Lỗi khi tạo sản phẩm:", error);
+    req.flash("error", "Có lỗi xảy ra khi tạo sản phẩm!");
+    return res.redirect(`${prefixAdmin}/products`);
   }
-  req.body.deleted = false; // Mặc định sản phẩm không bị xóa
-
-  console.log(req.body);
-  
-
-  // Tạo một sản phẩm mới từ dữ liệu trong req.body
-  const newProduct = new Product(req.body);
-  await newProduct.save(); // Lưu sản phẩm mới vào cơ sở dữ liệu
-
-  res.redirect(`${prefixAdmin}/products`);
-  
 };
