@@ -100,7 +100,10 @@ block main
                                         )   Dừng hoạt động
                                         
                                 td
-                                    button(class="btn btn-warning btn-sm me-2") Sửa
+                                    a(
+                                    href=`${prefixAdmin}/products/edit/${item._id}`
+                                    class="btn btn-warning btn-sm me-2"
+                                    )  Sửa
                                     button(
                                         class="btn btn-danger btn-sm"
                                         button-delete

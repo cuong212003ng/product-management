@@ -20,7 +20,14 @@ route.get("/create", controller.createGET) // Render form to create a new produc
 route.post(
     "/create",
     upload.single("thumbnail"),
-    validate.createPost, // Validate the form data before processing
+    validate.createPOST, // Validate the form data before processing
     controller.createPOST) // Handle form submission to create a new product
+
+route.get("/edit/:id", controller.editGET) // Render form to update an existing product
+route.patch(
+    "/edit/:id",
+    upload.single("thumbnail"),
+    validate.editPATCH, // Validate the form data before processing
+    controller.editPATCH) // Handle form submission to create a new product
 
 module.exports = route
