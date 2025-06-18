@@ -127,50 +127,24 @@ module.exports.createGET = async (req, res) => {
 };
 // [POST] /admin/products/create
 module.exports.createPOST = async (req, res) => {
-  try {
-    // Kiểm tra req.body
-    if (!req.body) {
-      req.flash("error", "Không nhận được dữ liệu sản phẩm!");
-      return res.redirect(`${prefixAdmin}/products`);
-    }
+  req.body.price = parseInt(req.body.price);
+  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.stock = parseInt(req.body.stock);
 
-    // Xử lý dữ liệu đầu vào an toàn
-    const productData = {
-      title: req.body.title,
-      description: req.body.description,
-      price: parseInt(req.body.price) || 0,
-      discountPercentage: parseInt(req.body.discountPercentage) || 0,
-      stock: parseInt(req.body.stock) || 0,
-      rating: parseFloat(req.body.rating) || 0,
-      category: req.body.category || "other",
-      status: req.body.status || "active",
-      deleted: false,
-    };
-
-    // Xử lý vị trí
-    if (!req.body.position || req.body.position === "") {
-      const countProduct = await Product.countDocuments();
-      productData.position = countProduct + 1;
-    } else {
-      productData.position = parseInt(req.body.position);
-    }
-
-    // Xử lý thumbnail nếu có
-    if (req.file) {
-      productData.thumbnail = `/uploads/${req.file.filename}`;
-    }
-
-    console.log("Dữ liệu sản phẩm đã xử lý:", productData);
-
-    // Tạo sản phẩm mới
-    const newProduct = new Product(productData);
-    await newProduct.save();
-
-    req.flash("success", "Thêm sản phẩm mới thành công!");
-    res.redirect(`${prefixAdmin}/products`);
-  } catch (error) {
-    console.error("Lỗi khi tạo sản phẩm:", error);
-    req.flash("error", "Có lỗi xảy ra khi tạo sản phẩm!");
-    return res.redirect(`${prefixAdmin}/products`);
+  if (req.body.position) {
+    const countPosition = await Product.countDocuments();
+    req.body.position = countPosition + 1; //Tự động tăng vị trí sản phẩm
+  } else {
+    req.body.position = parseInt(req.body.position);
   }
+  
+  if(req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`; //Lưu tên file ảnh vào cơ sở dữ liệu
+  }
+
+  const product = new Product(req.body);
+  await product.save(); //Lưu sản phẩm vào cơ sở dữ liệu
+
+  req.flash("success", "Thêm sản phẩm mới thành công");
+  res.redirect(`${prefixAdmin}/products`); //Chuyển hướng về trang danh sách sản phẩm
 };

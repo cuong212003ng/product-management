@@ -1,6 +1,10 @@
 extends ../../layout/default.pug
+include ../../mixins/show-alert.pug
 
 block main 
+
+    +alert-error(5000)
+
     h1(class="mb-4") Thêm sản phẩm mới
 
     form(
@@ -134,5 +138,6 @@ block main
                 class="btn btn-primary"
             )   Tạo mới sản phẩm 
                 
-    
     script(src="/admin/js/product.js")
+    script(src="/admin/js/script.js") 
+

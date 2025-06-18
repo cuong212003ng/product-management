@@ -6,6 +6,8 @@ const upload = multer({ storage: storage() }) //Upload là một middleware đ�
 
 const controller = require("../../controllers/admin/product.controller")
 
+const validate = require("../../validates/admin/product.validate")
+
 route.get("/", controller.product)
 
 route.patch("/change-status/:status/:id", controller.changeStatus)
@@ -15,6 +17,10 @@ route.patch("/change-multi", controller.changeMulti)
 route.delete("/delete/:id", controller.deleteItem)
 
 route.get("/create", controller.createGET) // Render form to create a new product
-route.post("/create", upload.single("thumbnail"), controller.createPOST) // Handle form submission to create a new product
+route.post(
+    "/create",
+    upload.single("thumbnail"),
+    validate.createPost, // Validate the form data before processing
+    controller.createPOST) // Handle form submission to create a new product
 
 module.exports = route

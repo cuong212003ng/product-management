@@ -141,16 +141,13 @@ const showAlert = document.querySelector("[show-alert]");
 
 if (showAlert) {
   const time = parseInt(showAlert.getAttribute("data-time"));
-  const alertClose = document.querySelector(".alert-close");
+  const alertClose1 = document.querySelector("[show-alert-close1]");
+  const alertClose2 = document.querySelector("[show-alert-close2]");
 
   // Auto close after time
   setTimeout(() => {
     showAlert.classList.add("alert-hidden");
   }, time);
-  // Close alert
-  alertClose.addEventListener("click", () => {
-    showAlert.classList.add("alert-hidden");
-  });
 }
 // End Show alert
 
